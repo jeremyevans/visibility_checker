@@ -67,6 +67,12 @@ skip_owners :: Skip reporting a visibility change if the method that
                Kernel by default as general Ruby practice is that Kernel
                methods can be overridden (e.g. Enumerable#select).
 
+= Issues Fixed Using VisibilityChecker
+
+* {Sequel}[https://github.com/jeremyevans/sequel/commit/8de844a1127f6bf9889fe0aaaaa5a9418397c555]
+* {Roda}[https://github.com/jeremyevans/roda/commit/b2eaccaf8512deb4cc441dfeaa02c42c3fd563db]
+* {Rodauth}[https://github.com/jeremyevans/rodauth/commit/da7445ff5ce5bdf7c56fe0cd27df33334f088ada]
+
 = License
 
 MIT
