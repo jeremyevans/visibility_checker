@@ -1,0 +1,76 @@
+= VisibilityChecker
+
+VisibilityChecker exposes a single method, visibility_changes, for returning
+an array with places where any ancestor of the given class/module has changed the
+visibility of any of the methods classes/modules methods.
+
+= Installation
+
+  gem install visibility_checker
+
+= Source Code
+
+Source code is available on GitHub at https://github.com/jeremyevans/visibility_checker
+
+= Usage
+
+Here's an example showing normal use:
+
+  require 'visibility_checker'
+
+  class C
+    def a
+    end
+  end
+
+  VisibilityChecker.visibility_changes(C)
+  # => []
+
+  module M
+    def a
+    end
+  end
+  C.include M
+
+  VisibilityChecker.visibility_changes(C)
+  # => []
+
+  class C
+    private :a
+  end
+
+  VisibilityChecker.visibility_changes(C)
+  #  => [#<struct VisibilityChecker::VisibilityChange 
+  #        method=:a, defined_in=M, original_visibility=:public,
+  #        overridden_by=C, new_visibility=:private>]
+
+You can also extend classes or modules with +VisibilityChecker+
+and call +visibility_changes+ on them:
+
+  C.extend VisibilityChecker
+  C.visibility_changes
+  # => [#<struct VisibilityChecker::VisibilityChange ... >]
+
+Or if you want to add the +visibility_changes+ method to all
+classes and modules, have +Module+ include it:
+
+  Module.include VisibilityChecker
+  M.visibility_changes
+  # => []
+
++VisibilityChecker.visibility_changes+ accepts two keyword arguments:
+
+stop_at :: The ancestor at which to stop for visibility changes, Object
+           by default.
+skip_owners :: Skip reporting a visibility change if the method that
+               was overridden was defined in this module/class.  Set to
+               Kernel by default as general Ruby practice is that Kernel
+               methods can be overridden (e.g. Enumerable#select).
+
+= License
+
+MIT
+
+= Author
+
+Jeremy Evans <code@jeremyevans.net>
