@@ -16,6 +16,12 @@ end
 
 task :default => :test
 
+desc "Run specs with coverage"
+task :test_cov do
+  ENV['COVERAGE'] = '1'
+  sh "#{FileUtils::RUBY} test/visibility_checker_test.rb"
+end
+
 ### RDoc
 
 require "rdoc/task"
