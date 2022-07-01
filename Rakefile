@@ -1,4 +1,3 @@
-require "rake"
 require "rake/clean"
 
 CLEAN.include ["visibility_checker-*.gem", "rdoc", "coverage"]
@@ -19,18 +18,11 @@ task :default => :test
 
 ### RDoc
 
-RDOC_DEFAULT_OPTS = ["--quiet", "--line-numbers", "--inline-source", '--title', 'VisibilityChecker: Detect method visibility changes']
-
-begin
-  gem 'hanna-nouveau'
-  RDOC_DEFAULT_OPTS.concat(['-f', 'hanna'])
-rescue Gem::LoadError
-end
-
 require "rdoc/task"
-RDOC_OPTS = RDOC_DEFAULT_OPTS + ['--main', 'README.rdoc']
+
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = "rdoc"
-  rdoc.options += RDOC_OPTS
+  rdoc.options += ['--inline-source', '--line-numbers', '--title', 'VisibilityChecker: Detect method visibility changes', '--main', 'README.rdoc', '-f', 'hanna']
   rdoc.rdoc_files.add %w"README.rdoc CHANGELOG MIT-LICENSE lib/**/*.rb"
 end
+
